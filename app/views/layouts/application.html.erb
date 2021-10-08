@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>AskIt</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11,6 +11,18 @@
   </head>
 
   <body>
+   <nav>
+     <ul>
+       <ui>
+         <li> <%= link_to 'Home', root_path %></li>
+         <li> <%= link_to 'Questions', questions_path %></li>
+      </ui>
+     </ul>
+   </nav>
+
+   <main>
     <%= yield %>
+   </main>
+
   </body>
 </html>
