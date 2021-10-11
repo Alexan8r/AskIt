@@ -22,3 +22,13 @@
 
 <%= f.submit "Submiit answer!", class: 'btn btn-primary' %>
 <% end %>
+
+<h2> Answers </h2>
+<%= @answers.each do |answer| %>
+  <time datetime="<%=answer.formated_created_at %>"
+        <%= answer.formated_created_at %>>
+    <p>
+    <%= answer.body %></p>
+  </time>
+
+<% end %>
