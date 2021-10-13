@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
   def update
     if @answer.update answer_params
       flash[:success] = "Answer updated!"
-      redirect_to questions_path(@question)
+      redirect_to question_path(@question)
     else
       render :edit
     end
@@ -27,9 +27,9 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    if answer.destroy
+    if @answer.destroy
       flash[:success] = "Answer deleted!"
-      redirect_to question_path
+      redirect_to question_path(@question)
     end
   end
 

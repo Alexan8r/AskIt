@@ -7,7 +7,7 @@
 <% @questions.each do |question| %>
   <article class="card mt-3">
     <div class="card-body">
-      <h2> <%= question.title %></h2>
+      <h2> <%= sanitize question.title %></h2>
 
         <section class="card-text">
           <time datetime="<%= question.formatted_created_at %>">
@@ -15,7 +15,7 @@
           </time>
 
           <p class="my-2">
-            <%= question.body %>
+            <%= truncate sanitize(question.body), length: 150, omission: '...(continued)' %>
           </p>
         </section>
 
