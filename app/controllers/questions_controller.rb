@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.order(created_at: :desc).page params[:page]
+    @questions = @questions.decorate
   end
 
   def new
@@ -42,9 +43,11 @@ class QuestionsController < ApplicationController
 
 
   def show
+    @question = @question.decorate
     @answer = @question.answers.build
-    @answers = @question.answers.order(created_at: :desc).
-  end
+    @answers = @question.answers.order(created_at: :desc).page(params[:page])
+    @answers = @answers.decorate
+    end
 
   private
 
