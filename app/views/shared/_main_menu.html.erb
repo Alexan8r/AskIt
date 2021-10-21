@@ -10,7 +10,7 @@
         </ul>
 
         <ul class="nav col-12 col-lg-auto mb-2 mb-bd-0">
-          <% if user_singed_in?  %>
+          <% if user_signed_in?  %>
           <li class="dropdown">
           <%= nav_tab current_user.name_or_email, '#',
                       class: 'nav-link px-2 dropdown-toggle',

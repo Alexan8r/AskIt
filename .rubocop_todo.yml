@@ -1,0 +1,11 @@
+inherit_from: .rubocop_todo.yml
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+NewCops: enable
+TargetRubyVersion: 2.7.2
+
+Style/Documentation:
+  Enabled: false
