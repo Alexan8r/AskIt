@@ -23,8 +23,10 @@ class AnswersController < ApplicationController
       flash[:success] = 'Answer created!'
       redirect_to question_path(@question)
     else
+      @question = @question.decorate
       @answers = @question.answer.order created_at: :desc
       render 'questions/show'
+      @answers = @answers.decorate
     end
   end
 

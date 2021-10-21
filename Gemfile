@@ -23,10 +23,14 @@ gem 'kaminari', '~> 1.2'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
+gem 'activerecord-import'
 gem 'bcrypt', '~> 3.1.7'
+gem 'caxlsx'
+gem 'caxlsx_rails'
 gem 'draper', '4.0'
+gem 'rubyXL'
+gem 'rubyzip', '~> 2'
 gem 'valid_email2', '~> 4.0'
-
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -36,6 +40,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'faker', '~> 2.19'
+  gem 'pry-rails'
 end
 
 group :development do
