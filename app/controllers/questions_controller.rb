@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  include QuestionsAnswers
   before_action :set_question!, only: %i[show destroy edit update]
 
   def edit; end
@@ -23,7 +24,7 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    @questions = Question.order(created_at: :desc).page params[:page]
+    @questions = Question.includes([:user]).order(created_at: :desc).page params[:page]
     @questions = @questions.decorate
   end
 
@@ -32,7 +33,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new question_params
+    @question = current_user.questions.build question_params
     if @question.save
       flash[:success] = 'Question created!'
       redirect_to questions_path
@@ -42,10 +43,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = @question.decorate
-    @answer = @question.answers.build
-    @answers = @question.answers.order(created_at: :desc).page(params[:page])
-    @answers = @answers.decorate
+    load_question_answers
   end
 
   private

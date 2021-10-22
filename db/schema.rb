@@ -12,13 +12,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_211_021_110_305) do
+ActiveRecord::Schema.define(version: 20_211_022_124_350) do
   create_table 'answers', force: :cascade do |t|
     t.text 'body', null: false
     t.integer 'question_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'user_id', null: false
     t.index ['question_id'], name: 'index_answers_on_question_id'
+    t.index ['user_id'], name: 'index_answers_on_user_id'
+  end
+
+  create_table 'comments', force: :cascade do |t|
+    t.string 'body'
+    t.string 'commentable_type', null: false
+    t.integer 'commentable_id', null: false
+    t.integer 'user_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index %w[commentable_type commentable_id], name: 'index_comments_on_commentable'
+    t.index ['user_id'], name: 'index_comments_on_user_id'
   end
 
   create_table 'questions', force: :cascade do |t|
@@ -26,6 +39,8 @@ ActiveRecord::Schema.define(version: 20_211_021_110_305) do
     t.text 'body', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'user_id', null: false
+    t.index ['user_id'], name: 'index_questions_on_user_id'
   end
 
   create_table 'users', force: :cascade do |t|
@@ -35,8 +50,12 @@ ActiveRecord::Schema.define(version: 20_211_021_110_305) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.string 'remember_token_digest'
+    t.string 'gravatar_hash'
     t.index ['email'], name: 'index_users_on_email', unique: true
   end
 
   add_foreign_key 'answers', 'questions'
+  add_foreign_key 'answers', 'users'
+  add_foreign_key 'comments', 'users'
+  add_foreign_key 'questions', 'users'
 end

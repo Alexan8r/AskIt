@@ -1,14 +1,22 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :users, only: %i[new create destroy edit update]
-  resource :session, only: %i[new create destroy]
-  resources :questions do
-    resources :answers, except: %i[new show]
-  end
+  scope '(:locale)', locale: /#{I18n.available_locales.join("|")}/ do
+    resources :users, only: %i[new create destroy edit update]
 
-  namespace :admin do
-    resources :users, only: %i[index create]
+    resource :session, only: %i[new create destroy]
+
+    resources :questions do
+      resources :answers, except: %i[new show]
+      resources :comments, only: %i[create destroy]
+    end
+
+    resources :answers, except: %i[new show] do
+      resources :comments, only: %i[create destroy]
+    end
+    namespace :admin do
+      resources :users, only: %i[index create]
+    end
+    root 'pages#index'
   end
-  root 'pages#index'
 end

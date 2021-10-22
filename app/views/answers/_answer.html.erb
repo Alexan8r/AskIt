@@ -1,5 +1,9 @@
 <%= tag.article class: 'mb-3 card', id: dom_id(answer) do %>
-  <div class="card-body">
+  <div class="row-g-0">
+    <div class="col-sm-auto text-sm-center align-self-center">
+      <%= answer.user.gravatar size:30, css_class: 'd-block'%>
+      <%= answer.user.name_or_email %>
+    </div>
     <section class="card-text">
       <small><time datetime="<%= answer.created_at %>">
         <%= answer.formatted_created_at %>
@@ -17,3 +21,6 @@
                 data: {method: :delete, confirm: "Are you sure?"} %>
   </div>
 <% end %>
+
+<%= render 'comments/commentable', commentable: answer, comment: @comment,
+           html_id: dom_id(answer, 'comment_form') %>
