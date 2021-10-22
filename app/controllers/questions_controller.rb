@@ -3,7 +3,7 @@
 class QuestionsController < ApplicationController
   include QuestionsAnswers
   before_action :set_question!, only: %i[show destroy edit update]
-
+  before_action :fetch_tags, only: %i[new edit]
   def edit; end
 
   def update
@@ -24,7 +24,7 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    @questions = Question.includes([:user]).order(created_at: :desc).page params[:page]
+    @questions = Question.all_by_tags(params[:tag_ids])
     @questions = @questions.decorate
   end
 
@@ -49,7 +49,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:body, :title)
+    params.require(:question).permit(:body, :title, tag_ids: [] )
   end
 end
 
@@ -57,4 +57,7 @@ def set_question!
   @question = Question.find params[:id]
 end
 
+def fetch_tags
+  @tags = Tag.all
+end
 def find; end
