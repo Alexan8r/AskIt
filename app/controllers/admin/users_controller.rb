@@ -3,7 +3,7 @@
 module Admin
   class UsersController < ApplicationController
     before_action :require_authentication
-    before_action :set_user!, only: %i[edit update]
+    before_action :set_user!, only: %i[edit update destroy]
 
     def index
       respond_to do |format|
@@ -18,19 +18,17 @@ module Admin
     def create
       if params[:archive].present?
         UserBulkService.call params[:archive]
-        flash[:success] = 'Users imported!'
+        flash[:success] = t '.success'
       end
 
       redirect_to admin_users_path
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
-      @user.admin_edit = true
       if @user.update user_params
-        flash[:success] = "Success"
+        flash[:success] = t '.success'
         redirect_to admin_users_path
       else
         render :edit
@@ -38,8 +36,8 @@ module Admin
     end
 
     def destroy
-      user.destroy
-      flash[:success] = t ".success"
+      @user.destroy
+      flash[:success] = 'User deleted'
       redirect_to admin_users_path
     end
 
@@ -50,8 +48,8 @@ module Admin
         User.order(created_at: :desc).each do |user|
           zos.put_next_entry "user_#{user.id}.xlsx"
           zos.print render_to_string(
-            layout: false, handlers: [:axlsx], formats: [:xlsx], template: 'admin/users/user', locals: { user: user }
-          )
+                      layout: false, handlers: [:axlsx], formats: [:xlsx], template: 'admin/users/user', locals: { user: user }
+                    )
         end
       end
 
@@ -60,12 +58,13 @@ module Admin
     end
 
     def set_user!
-      @user=User.find params[:id]
+      @user = User.find params[:id]
     end
 
     def user_params
-      params.require(:user).permit(:email, :name, :password,
-                                   :password_confirmation).merge(admin_edit: true )
+      params.require(:user).permit(
+        :email, :name, :password, :password_confirmation, :role
+      ).merge(admin_edit: true)
     end
   end
 end

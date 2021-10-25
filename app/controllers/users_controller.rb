@@ -3,9 +3,17 @@
 class UsersController < ApplicationController
   before_action :require_no_authentication, only: %i[new create]
   before_action :require_authentication, only: %i[edit update]
-  before_action :set_user!, only: %i[edit update]
+  before_action :set_user!, only: %i[edit update destroy]
 
   def edit; end
+
+
+    def destroy
+      user.destroy
+      flash[:success] = 'User deleted'
+      redirect_to admin_users_path
+    end
+
 
   def update
     if @user.update user_params
@@ -14,12 +22,6 @@ class UsersController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def destroy
-    user.destroy
-    flash[:success] = t ".success"
-    redirect_to admin_users_path
   end
 
   def new
@@ -45,6 +47,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :name, :password, :password_confirmation,
-                                 :old_password).merge(admin_edit: true )
+                                 :old_password).merge(admin_edit: true)
   end
 end

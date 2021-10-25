@@ -25,6 +25,7 @@ gem 'kaminari', '~> 1.2'
 # Use Active Model has_secure_password
 gem 'activerecord-import'
 gem 'bcrypt', '~> 3.1.7'
+gem 'bootstrap', '5.0'
 gem 'caxlsx'
 gem 'caxlsx_rails'
 gem 'draper', '4.0'
@@ -32,7 +33,6 @@ gem 'rails-i18n', '6'
 gem 'rubyXL'
 gem 'rubyzip', '~> 2'
 gem 'valid_email2', '~> 4.0'
-gem 'bootstrap', '5.0'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

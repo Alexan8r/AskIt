@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   end
 
   scope '(:locale)', locale: /#{I18n.available_locales.join("|")}/ do
-    resources :users, only: %i[new create destroy edit update]
+
+    resources :users, only: %i[new create edit update]
 
     resources :tags, only: :create
 
@@ -21,7 +22,7 @@ Rails.application.routes.draw do
       resources :comments, only: %i[create destroy]
     end
     namespace :admin do
-      resources :users, only: %i[index create edit update destroy]
+      resources :users, except: :new
     end
 
     root 'pages#index'
