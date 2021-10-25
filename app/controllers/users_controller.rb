@@ -16,6 +16,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    user.destroy
+    flash[:success] = t ".success"
+    redirect_to admin_users_path
+  end
+
   def new
     @user = User.new
   end
@@ -38,6 +44,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :name, :password, :password_confirmation, :old_password)
+    params.require(:user).permit(:email, :name, :password, :password_confirmation,
+                                 :old_password).merge(admin_edit: true )
   end
 end

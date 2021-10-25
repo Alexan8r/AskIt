@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-sm-10">
-      <%= f.text_field :title, placeholder: 'Title', class: 'form-control' %>
+      <%= f.text_field :title, class: 'form-control' %>
     </div>
   </div>
 
@@ -24,12 +24,13 @@
     <div class="col-sm-2 col-form-label">
       <%= f.label :tags %>
     </div>
+
+
+    <div class="field">
+      <%= f.label :tags %>
+      <%= f.select :tag_ids, Tag.all.pluck(:title, :id), {}, { multiple: true, id: "select-tags" } %>
+    </div>
   </div>
 
-  <div class="col-sm-10">
-    <%=f.collection_select :tag_ids, tags, :id, :title, {}, multiple: true %>
-  </div>
-  </div>
-
-  <%= f.submit "Submit question!", class: 'btn btn-primary' %>
+  <%= f.submit t('global.button.submit'), class: 'btn btn-primary' %>
 <% end %>

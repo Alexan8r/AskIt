@@ -11,6 +11,7 @@ ru:
         body: Текст
         title: Заголовок
       user:
+        role: Роль
         created_at: Создан
         email: Email
         name: Имя
@@ -22,6 +23,10 @@ ru:
       question: Вопрос
   admin:
     users:
+      delete:
+        success: Пользователь удалён!
+      update:
+        success: Пользователь обновлён!
       create:
         success: Пользователи загружены!
       index:

@@ -26,6 +26,7 @@ class QuestionsController < ApplicationController
   def index
     @questions = Question.all_by_tags(params[:tag_ids])
     @questions = @questions.decorate
+    @tags = Tag.where(id: params[:tag_ids]) if params[:tag_ids]
   end
 
   def new
@@ -49,7 +50,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:body, :title, tag_ids: [] )
+    params.require(:question).permit(:body, :title, tag_ids: [])
   end
 end
 
@@ -60,4 +61,5 @@ end
 def fetch_tags
   @tags = Tag.all
 end
+
 def find; end
