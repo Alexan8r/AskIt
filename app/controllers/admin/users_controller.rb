@@ -59,6 +59,7 @@ module Admin
       send_data compressed_filestream.read, filename: 'users.zip'
     end
 
+
     def set_user!
       @user = User.find params[:id]
     end
