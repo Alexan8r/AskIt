@@ -7,13 +7,11 @@ class UsersController < ApplicationController
 
   def edit; end
 
-
-    def destroy
-      user.destroy
-      flash[:success] = 'User deleted'
-      redirect_to admin_users_path
-    end
-
+  def destroy
+    user.destroy
+    flash[:success] = 'User deleted'
+    redirect_to admin_users_path
+  end
 
   def update
     if @user.update user_params

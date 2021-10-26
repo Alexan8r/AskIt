@@ -18,17 +18,17 @@ module Admin
     def create
       if params[:archive].present?
         UserBulkService.call params[:archive]
-        flash[:success] = t '.success'
+        flash[:success] = 'Users imported!'
       end
-
       redirect_to admin_users_path
     end
 
     def edit; end
 
     def update
+      @user.admin_edit = true
       if @user.update user_params
-        flash[:success] = t '.success'
+        flash[:success] = 'Success'
         redirect_to admin_users_path
       else
         render :edit
@@ -48,8 +48,8 @@ module Admin
         User.order(created_at: :desc).each do |user|
           zos.put_next_entry "user_#{user.id}.xlsx"
           zos.print render_to_string(
-                      layout: false, handlers: [:axlsx], formats: [:xlsx], template: 'admin/users/user', locals: { user: user }
-                    )
+            layout: false, handlers: [:axlsx], formats: [:xlsx], template: 'admin/users/user', locals: { user: user }
+          )
         end
       end
 
@@ -62,9 +62,8 @@ module Admin
     end
 
     def user_params
-      params.require(:user).permit(
-        :email, :name, :password, :password_confirmation, :role
-      ).merge(admin_edit: true)
+      params.require(:user).permit(:email, :name, :password,
+                                   :password_confirmation, :role).merge(admin_edit: true)
     end
   end
 end
