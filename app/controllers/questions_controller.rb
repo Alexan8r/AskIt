@@ -2,8 +2,10 @@
 
 class QuestionsController < ApplicationController
   include QuestionsAnswers
+  before_action :require_authentication, except: %i[show index]
   before_action :set_question!, only: %i[show destroy edit update]
-  before_action :fetch_tags, only: %i[new edit]
+  before_action :authorize_question!
+  after_action :verify_authorized
   def edit; end
 
   def update
@@ -63,3 +65,7 @@ def fetch_tags
 end
 
 def find; end
+
+def authorize_question!
+  authorize(@question || Question)
+end

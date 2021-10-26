@@ -4,9 +4,11 @@ class CommentsController < ApplicationController
   include QuestionsAnswers
   before_action :set_commentable!
   before_action :set_question
+  after_action :verify_authorized
 
   def create
     @comment = @commentable.comments.build comment_params
+    authorize @comment
 
     if @comment.save
       flash[:success] = t '.success'
@@ -14,12 +16,13 @@ class CommentsController < ApplicationController
     else
       @comment = @comment.decorate
       load_question_answers do_render: true
-      redirect_to question_path
     end
   end
 
   def destroy
     comment = @commentable.comments.find params[:id]
+    authorize comment
+
     comment.destroy
     flash[:success] = t '.success'
     redirect_to question_path(@question)
